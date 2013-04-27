@@ -1,0 +1,55 @@
+#
+# This file is a configuration file of the Wiftgish project.
+#
+
+application: wiftgish-hrd
+version: 2
+runtime: python27
+api_version: 1
+threadsafe: true
+
+# Libraries/versions to use.
+libraries:
+- name: webapp2
+  version: '2.5.2'
+- name: jinja2
+  version: '2.6'
+
+#builtins:
+#- appstats: on
+
+# Set browser caching time for static objects.
+default_expiration: "1d"
+
+handlers:
+# Static files.
+- url: /assets
+  static_dir: static/assets
+
+- url: /images
+  static_dir: static/images
+
+- url: /revision
+  static_files: static/revision
+  upload: static/revision
+  mime_type: text/plain
+  expiration: 10m
+
+- url: /favicon\.ico
+  static_files: static/images/favicon.ico
+  upload: static/images/favicon.ico
+  mime_type: image/x-icon
+
+- url: /robots\.txt
+  static_files: static/robots.txt
+  upload: static/robots.txt
+
+# Logged-in handlers.
+- url: /app/.*
+  script: app.wsgi_app
+  login: required
+
+# Non-logged-in default handlers.
+- url: /.*
+  script: launcher.wsgi_app
+

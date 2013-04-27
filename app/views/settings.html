@@ -1,0 +1,53 @@
+{#-
+ #
+ # This file is part of the Wiftgish project.
+ #
+ # Copyright (C) 2013 Stephen M Buben <smbuben@gmail.com>
+ #
+ # Wiftgish is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU Affero General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # Wiftgish is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU Affero General Public License for more details.
+ #
+ # You should have received a copy of the GNU Affero General Public License
+ # along with Wiftgish.  If not, see <http://www.gnu.org/licenses/>.
+ #
+-#}
+
+{% extends "base.html" %}
+
+{% block title %}Update Settings{% endblock %}
+
+{% block subhead %}
+  <h1>Update Settings</h1>
+  <p class="lead">Customize your experience.</p>
+{% endblock %}
+
+{% block content %}
+  <h2>Display Name</h2>
+  <br>
+  <form class="form-horizontal" action="{{prefix}}/settings" method="post">
+    <div class="control-group">
+      <label class="control-label" for="settings-firstname">First name</label>
+      <div class="controls">
+        <input id="settings-firstname" type="text" name="firstname" {% if settings.firstname %}value="{{settings.firstname}}"{% endif %}>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="settings-lastname">Last name</label>
+      <div class="controls">
+        <input id="settings-lastname" type="text" name="lastname" {% if settings.lastname %}value="{{settings.lastname}}"{% endif %}>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

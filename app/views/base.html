@@ -1,0 +1,289 @@
+{#-
+ #
+ # This file is part of the Wiftgish project.
+ #
+ # Copyright (C) 2013 Stephen M Buben <smbuben@gmail.com>
+ #
+ # Wiftgish is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU Affero General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # Wiftgish is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU Affero General Public License for more details.
+ #
+ # You should have received a copy of the GNU Affero General Public License
+ # along with Wiftgish.  If not, see <http://www.gnu.org/licenses/>.
+ #
+-#}
+
+<!DOCTYPE html>
+<html lang="en">
+{% autoescape true %}
+<head>
+  <meta charset="utf-8">
+  <title>Wiftgish - {% block title %}{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+
+    /* Enable floated navbar text
+     * -------------------------------------- */
+    @media (max-width: 980px) {
+      .navbar-text.pull-right {
+        float: none;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    }
+
+    /* Footer fixed to bottom
+     * -------------------------------------- */
+    html,
+    body {
+      height: 100%;
+    }
+
+    #wg-wrapper {
+      min-height: 100%;
+      height: auto !important;
+      height: 100%;
+      margin: 0 auto -120px;
+    }
+
+    #wg-pusher,
+    #wg-footer {
+      height: 120px;
+    }
+
+    #wg-footer {
+      text-align: center;
+      font-size: 10px;
+    }
+
+    @media (max-width: 767px) {
+      #wg-footer {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    /* Page subheader
+     * -------------------------------------- */
+    .masthead {
+      /* handle fixed navigation header here */
+      padding-top: 60px;
+    }
+
+    @media (max-width: 980px) {
+      .masthead {
+        padding-top: 0px;
+      }
+    }
+
+    .masthead > .page-header {
+      padding: 10px 40px 10px 40px;
+      background: #eeeeee;
+      -webkit-border-radius: 10px;
+         -moz-border-radius: 10px;
+              border-radius: 10px;
+    }
+
+    /* Sidebar navigation
+     * -------------------------------------- */
+    .wg-nav-sidenav i {
+      float: right;
+      opacity: 0.6;
+    }
+
+    .wg-nav-header {
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    /* User content lists
+     * -------------------------------------- */
+    .content-entry-list {
+      padding-bottom: 20px;
+    }
+
+    .content-entry {
+      overflow: auto;
+      margin-top: 1px;
+      padding: 5px 10px 5px 20px;
+      background: #a4cfe4;
+      -webkit-border-radius: 5px;
+         -moz-border-radius: 5px;
+              border-radius: 5px;
+    }
+
+    .content-entry.content-entry-header {
+      background: #eeeeee;
+    }
+
+    .content-entry:hover,
+    .content-entry.content-entry-header:hover {
+      background: #f9d7b0;
+    }
+
+    .content-entry > .nav-pills {
+      margin: 0;
+    }
+
+    .content-entry a {
+      text-decoration: none;
+    }
+
+    .content-entry > .nav-pills i {
+      opacity: 0.6;
+    }
+
+    /* Misc style
+     * -------------------------------------- */
+    .text-required {
+      color: #9d261d;
+      font-weight: bold;
+    }
+
+    /* Printing helpers
+     * -------------------------------------- */
+    @media print {
+      .wg-nav-sidenav {
+        display: none;
+      }
+
+      .content-entry > .nav-pills {
+        display: none;
+      }
+
+      .btn {
+        display: none;
+      }
+    }
+
+  </style>
+  <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="/assets/bootstrap/js/html5shiv.js"></script>
+  <![endif]-->
+
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  <div id="wg-wrapper">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="buton" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand">wiftgish</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              {{user.email()}}
+            </p>
+            <ul class="nav">
+              <li><a href="{{prefix}}/">home</a></li>
+              <li><a href="{{prefix}}/settings">settings</a></li>
+              <li><a href="{{prefix}}/logout">sign out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container masthead">
+      <div class="page-header">
+        {% block subhead %}{% endblock %}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          {% for message in messages %}
+            <div class="alert {{message.1}} text-center">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>{{message.0}}</strong>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        {% if not overview %}
+        <div class="span3">
+          <ul class="nav nav-tabs nav-stacked wg-nav-sidenav">
+            <li><a href="{{prefix}}/"><i class="icon-home"></i>home</a></li>
+            {% if breadcrumb %}
+              <li class="disabled wg-nav-header"><a>Back</a></li>
+              <li><a href="{{breadcrumb.0}}"><i class="icon-chevron-left"></i>{{breadcrumb.1|truncate(length=20)}}</a></li>
+            {% endif %}
+            <li class="disabled wg-nav-header"><a>Lists</a></li>
+            {% if lists %}
+              {% for list in lists|sort(attribute='title') %}
+                <li><a href="{{prefix}}/lists/{{list.key()}}"><i class="icon-chevron-right"></i>{{list.title|truncate(length=20)}}</a></li>
+              {% endfor %}
+            {% else %}
+              <li class="disabled"><a>none created</a></li>
+            {% endif %}
+            <li class="disabled wg-nav-header"><a>Groups</a></li>
+            {% if groups %}
+              {% for group in groups|sort(attribute='entity.title') %}
+                <li><a href="{{prefix}}/groups/{{group.entity.key()}}"><i class="icon-chevron-right"></i>{{group.entity.title|truncate(length=20)}}</a></li>
+              {% endfor %}
+            {% else %}
+              <li class="disabled"><a>none created</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
+
+        <div class="{% if not overview %}span9{% else %}span10 offset1{% endif %}">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <div id="wg-pusher"></div>
+  </div>
+
+  <div id="wg-footer">
+    <div class="container">
+        <hr>
+        <p><a href="https://github.com/smbuben/wiftgish" target="_blank">Wiftgish</a> licensed under <a href="http://www.gnu.org/licenses/agpl.txt" target="_blank">GNU AGPLv3<a><br><a href="http://twitter.github.io/bootstrap/index.html" target="_blank">Twitter Bootstrap</a> licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License 2.0</a>, <a href="http://glyphicons.com" target="_blank">Glyphicons Free</a> licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a></p>
+    </div>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    $("a.wg-dialog-link").click(
+      function(){
+        var modal = $(this).attr("href");
+        $("#wg-dialog-key", modal).attr("value", $(this).attr("wg-dialog-key"));
+        $("#wg-dialog-title", modal).text($(this).attr("wg-dialog-title"));
+        $(modal).modal("show");
+      }
+    );
+  </script>
+  {% block end_of_page %}{% endblock %}
+</body>
+{% endautoescape %}
+</html>
