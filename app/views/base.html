@@ -312,24 +312,38 @@
     !function ($) {
       $(function(){
         $("a.wg-dialog-link").click(
-          function(){
-            var modal = $(this).attr("href");
-            $("#wg-dialog-key", modal).attr(
+          function() {
+            var $modal = $(this).attr("href");
+            $("#wg-dialog-key", $modal).attr(
               "value",
               $(this).attr("wg-dialog-key")
             );
-            $("#wg-dialog-title", modal).text(
+            $("#wg-dialog-title", $modal).text(
               $(this).attr("wg-dialog-title")
             );
-            $(modal).modal("show");
+            $($modal).modal("show");
           }
         );
-        $(".wg-nav-sidenav").affix({
-          offset: {
-            top: parseInt($(".wg-nav-sidenav").position().top)
-                  - ($(window).width() <= 980 ? 20 : 60)
+
+        function affix(e) {
+          var $window = $(window);
+          var $sidenav = $(".wg-nav-sidenav");
+          /* Disable any previously set affix handlers. */
+          $window.off(".affix");
+          $sidenav.removeData("affix");
+          $sidenav.removeClass("affix affix-top affix-bottom");
+          /* Enable an affix if the window is tall enough. */
+          if ($sidenav.height() < ($window.height() - 60)) {
+            var y = $sidenav.position().top - ($window.width() > 980 ? 60 : 20);
+            $sidenav.affix({
+              offset: {top: y}
+            });
           }
-        });
+        }
+        affix(null);
+
+        /* Redo the affix calculations when the window is resized. */
+        $(window).resize(affix);
       })
     }(window.jQuery)
   </script>
