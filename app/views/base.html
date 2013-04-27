@@ -98,6 +98,10 @@
 
     /* Sidebar navigation
      * -------------------------------------- */
+    .wg-nav-sidenav {
+      width: 218px;
+    }
+
     .wg-nav-sidenav i {
       float: right;
       opacity: 0.6;
@@ -107,6 +111,37 @@
       font-size: 12px;
       font-weight: bold;
       text-transform: uppercase;
+    }
+
+    .wg-nav-sidenav.affix {
+      top: 60px;
+    }
+
+    @media (min-width: 1200px) {
+      .wg-nav-sidenav {
+        width: 278px;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 980px) {
+      .wg-nav-sidenav {
+        width: 166px;
+      }
+
+      .wg-nav-sidenav.affix {
+        top: 20px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .wg-nav-sidenav {
+        width: auto;
+      }
+
+      .wg-nav-sidenav.affix {
+        position: static;
+        width: auto;
+      }
     }
 
     /* User content lists
@@ -274,14 +309,29 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-    $("a.wg-dialog-link").click(
-      function(){
-        var modal = $(this).attr("href");
-        $("#wg-dialog-key", modal).attr("value", $(this).attr("wg-dialog-key"));
-        $("#wg-dialog-title", modal).text($(this).attr("wg-dialog-title"));
-        $(modal).modal("show");
-      }
-    );
+    !function ($) {
+      $(function(){
+        $("a.wg-dialog-link").click(
+          function(){
+            var modal = $(this).attr("href");
+            $("#wg-dialog-key", modal).attr(
+              "value",
+              $(this).attr("wg-dialog-key")
+            );
+            $("#wg-dialog-title", modal).text(
+              $(this).attr("wg-dialog-title")
+            );
+            $(modal).modal("show");
+          }
+        );
+        $(".wg-nav-sidenav").affix({
+          offset: {
+            top: parseInt($(".wg-nav-sidenav").position().top)
+                  - ($(window).width() <= 980 ? 20 : 60)
+          }
+        });
+      })
+    }(window.jQuery)
   </script>
   {% block end_of_page %}{% endblock %}
 </body>
