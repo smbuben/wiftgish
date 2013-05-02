@@ -226,7 +226,7 @@
                 <li><a class="wg-dialog-link" href="#gift-delete-dialog" wg-dialog-key="{{gift.key()}}" wg-dialog-title="{{gift.item}}" title="Delete"><i class="icon-remove"></i></a></li>
               {% else %}
                 {% if gift.purchased %}
-                  <li><a href="{{prefix}}/lists/unpurchase/gift/{{gift.key()}}" title="Undo purchas"><i class="icon-random"></i></a></li>
+                  <li><a href="{{prefix}}/lists/unpurchase/gift/{{gift.key()}}" title="Undo purchase"><i class="icon-random"></i></a></li>
                 {% else %}
                   <li><a href="{{prefix}}/lists/purchase/gift/{{gift.key()}}" title="Purchase"><i class="icon-gift"></i></a></li>
                 {% endif %}
