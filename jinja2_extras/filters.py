@@ -23,12 +23,12 @@ import re
 import urlparse
 
 
-def link_domain(value):
-    try:
-        return urlparse.urlparse(value).netloc
-    except:
-        pass
-    return None
+def short_url(value, path_length=15):
+    netloc = urlparse.urlparse(value).netloc
+    path = value.split(netloc, 1)[1]
+    if len(path) > path_length:
+        return netloc + path[:path_length] + '...'
+    return netloc + path
 
 
 def timesince(value, verbose=False):
@@ -47,7 +47,7 @@ def timesince(value, verbose=False):
                 if amount > 1:
                     period += 's'
                 return '%d %s ago' % (amount, period)
-        return 'just now'
+        return 'a short time ago'
     else:
         bins = [
             (diff.days / 365, 'y'),
@@ -62,14 +62,14 @@ def timesince(value, verbose=False):
 
 @jinja2.evalcontextfilter
 def linebreaks(eval_ctx, value):
-    result = u'<br/>'.join(re.split(r'(?:\r\n|\r|\n)', jinja2.escape(value)))
+    result = u'<br>'.join(re.split(r'(?:\r\n|\r|\n)', jinja2.escape(value)))
     if eval_ctx.autoescape:
         result = jinja2.Markup(result)
     return result
 
 
 all_filters = {
-    'link_domain' : link_domain,
+    'short_url' :   short_url,
     'timesince' :   timesince,
     'linebreaks' :  linebreaks,
 }
