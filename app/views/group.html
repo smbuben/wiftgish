@@ -29,13 +29,13 @@
   {% if editor %}
     <p class="lead"><a href="#group-edit-dialog" role="button" class="btn" data-toggle="modal"><i class="icon-cog"></i> Edit this information</a></p>
     <div id="group-edit-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="group-edit-dialog-label" aria-hidden="true">
-      <form class="form-horizontal" action="{{prefix}}/groups/update/" method="post">
-        <input type="hidden" name="group" value="{{group.key()}}">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 id="group-edit-dialog-label">Edit Group Information</h3>
-        </div>
-        <div class="modal-body">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 id="group-edit-dialog-label">Edit Group Information</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" action="{{prefix}}/groups/update/" method="post">
+          <input type="hidden" name="group" value="{{group.key()}}">
           <div class="control-group">
             <label class="control-label" for="group-edit-title">Title <span class="text-required">*</span></label>
             <div class="controls">
@@ -48,12 +48,12 @@
               <textarea id="group-edit-message" name="message" rows="5">{% if group.message %}{{group.message}}{% endif %}</textarea>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
+      </div>
+      <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Edit Group</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   {% endif %}
 {% endblock %}
@@ -102,20 +102,20 @@
     {% if editor %}
       {% if member_lists %}
         <div id="member-delete-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="member-delete-dialog-label" aria-hidden="true">
-          <form action="{{prefix}}/groups/delete/member/" method="post">
-            <input id="wg-dialog-key" type="hidden" name="member" value="">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h3 id="member-delete-dialog-label">Really Remove Member?</h3>
-            </div>
-            <div class="modal-body">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 id="member-delete-dialog-label">Really Remove Member?</h3>
+          </div>
+          <div class="modal-body">
+            <form action="{{prefix}}/groups/delete/member/" method="post">
+              <input id="wg-dialog-key" type="hidden" name="member" value="">
               <p>Are you sure you want to remove member <strong id="wg-dialog-title"></strong> from the group? Once a member is removed their lists will now longer be viewable, and they will not be able to view other members' lists.</p>
-            </div>
-            <div class="modal-footer">
+          </div>
+          <div class="modal-footer">
               <button type="button" class="btn" data-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-danger">Remove Member</button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       {% endif %}
     {% endif %}
@@ -135,13 +135,13 @@
       </div>
 
       <div id="invite-create-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="invite-create-dialog-label" aria-hidden="true">
-        <form class="form-horizontal" action="{{prefix}}/groups/create/invitation/" method="post">
-          <input type="hidden" name="group" value="{{group.key()}}">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3 id="invite-create-dialog-label">Create an Invitation</h3>
-          </div>
-          <div class="modal-body">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 id="invite-create-dialog-label">Create an Invitation</h3>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" action="{{prefix}}/groups/create/invitation/" method="post">
+            <input type="hidden" name="group" value="{{group.key()}}">
             <div class="control-group">
               <label class="control-label" for="invite-create-email">Invitee's email <span class="text-required">*</span></label>
               <div class="controls">
@@ -167,12 +167,12 @@
                 Because the email address associated with your account is not a Google Mail address we cannot deliver this invitation for you. <strong>You will have to deliver the invitation code to the invitee yourself.</strong> The code will be found in the invitations list once created.
               {% endif %}
             </p>
-          </div>
-          <div class="modal-footer">
+        </div>
+        <div class="modal-footer">
             <button type="button" class="btn" data-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-primary">Create Invitation</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     {% endif %}
 
@@ -207,20 +207,20 @@
       </div>
 
       <div id="invite-delete-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="invite-delete-dialog-label" aria-hidden="true">
-        <form action="{{prefix}}/groups/delete/invitation/" method="post">
-          <input id="wg-dialog-key" type="hidden" name="invite" value="">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3 id="invite-delete-dialog-label">Really Cancel Invitation?</h3>
-          </div>
-          <div class="modal-body">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 id="invite-delete-dialog-label">Really Cancel Invitation?</h3>
+        </div>
+        <div class="modal-body">
+          <form action="{{prefix}}/groups/delete/invitation/" method="post">
+            <input id="wg-dialog-key" type="hidden" name="invite" value="">
             <p>Are you sure you want to cancel the invitation for <strong id="wg-dialog-title"></strong>? A cancelled invitation can no longer be used to join the group. A new invitation will need to be created for the invitee.</p>
-          </div>
-          <div class="modal-footer">
+        </div>
+        <div class="modal-footer">
             <button type="button" class="btn" data-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-danger">Cancel Invitation</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     {% endif %}
   </section>

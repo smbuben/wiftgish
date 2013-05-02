@@ -33,13 +33,13 @@
 
   {% if editor %}
     <div id="list-edit-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="list-edit-dialog-label" aria-hidden="true">
-      <form class="form-horizontal" action="{{prefix}}/lists/update/" method="post">
-        <input type="hidden" name="list" value="{{list.key()}}">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 id="list-edit-dialog-label">Edit Wish List Information</h3>
-        </div>
-        <div class="modal-body">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 id="list-edit-dialog-label">Edit Wish List Information</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" action="{{prefix}}/lists/update/" method="post">
+          <input type="hidden" name="list" value="{{list.key()}}">
           <div class="control-group">
             <label class="control-label" for="list-edit-title">Title <span class="text-required">*</span></label>
             <div class="controls">
@@ -52,12 +52,12 @@
               <textarea id="list-edit-description" name="description" rows="5">{% if list.description %}{{list.description}}{% endif %}</textarea>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
+      </div>
+      <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Edit Wish List</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   {% endif %}
 {% endblock %}
@@ -75,13 +75,13 @@
         </div>
 
         <div id="survey-create-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="survey-create-dialog-label" aria-hidden="true">
-          <form class="form-horizontal" action="{{prefix}}/lists/create/survey/" method="post">
-            <input type="hidden" name="list" value="{{list.key()}}">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h3 id="survey-create-dialog-label">Add Survey Answer</h3>
-            </div>
-            <div class="modal-body">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 id="survey-create-dialog-label">Add Survey Answer</h3>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" action="{{prefix}}/lists/create/survey/" method="post">
+              <input type="hidden" name="list" value="{{list.key()}}">
               <div class="control-group">
                 <label class="control-label" for="survey-create-category">Category <span class="text-required">*</span></label>
                 <div class="controls">
@@ -98,12 +98,12 @@
                   <input id="survey-create-answer" type="text" name="item" placeholder="New Survey Answer">
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
+          </div>
+          <div class="modal-footer">
               <button type="button" class="btn" data-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-primary">Add Survey Answer</button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       {% endif %}
     {% endif %}
@@ -136,21 +136,21 @@
     {% if editor %}
       {% if surveys %}
         <div id="survey-delete-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="survey-delete-dialog-label" aria-hidden="true">
-          <form action="{{prefix}}/lists/delete/survey/" method="post">
-            <input type="hidden" name="list" value="{{list.key()}}">
-            <input id="wg-dialog-key" type="hidden" name="survey" value="">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h3 id="survey-delete-dialog-label">Really Delete Survey Answer?</h3>
-            </div>
-            <div class="modal-body">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 id="survey-delete-dialog-label">Really Delete Survey Answer?</h3>
+          </div>
+          <div class="modal-body">
+            <form action="{{prefix}}/lists/delete/survey/" method="post">
+              <input type="hidden" name="list" value="{{list.key()}}">
+              <input id="wg-dialog-key" type="hidden" name="survey" value="">
               <p>Are you sure you want to delete the survey answer <strong id="wg-dialog-title"></strong>?</p>
-            </div>
-            <div class="modal-footer">
+          </div>
+          <div class="modal-footer">
               <button type="button" class="btn" data-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-danger">Delete Survey Answer</button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       {% endif %}
     {% endif %}
@@ -170,13 +170,13 @@
         </div>
 
         <div id="gift-create-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="gift-create-dialog-label" aria-hidden="true">
-          <form class="form-horizontal" action="{{prefix}}/lists/create/gift/" method="post">
-            <input type="hidden" name="list" value="{{list.key()}}">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h3 id="gift-create-dialog-label">Add Gift Suggestion</h3>
-            </div>
-            <div class="modal-body">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 id="gift-create-dialog-label">Add Gift Suggestion</h3>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" action="{{prefix}}/lists/create/gift/" method="post">
+              <input type="hidden" name="list" value="{{list.key()}}">
               <div class="control-group">
                 <label class="control-label" for="gift-create-item">Gift <span class="text-required">*</span></label>
                 <div class="controls">
@@ -205,12 +205,12 @@
                   </select>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
+          </div>
+          <div class="modal-footer">
               <button type="button" class="btn" data-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-primary">Add Gift Suggestion</button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       {% endif %}
     {% endif %}
@@ -265,21 +265,21 @@
     {% if editor %}
       {% if gifts %}
       <div id="gift-delete-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="gift-delete-dialog-label" aria-hidden="true">
-        <form action="{{prefix}}/lists/delete/gift/" method="post">
-          <input type="hidden" name="list" value="{{list.key()}}">
-          <input id="wg-dialog-key" type="hidden" name="gift" value="">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3 id="gift-delete-dialog-label">Really Delete Gift Suggestion?</h3>
-          </div>
-          <div class="modal-body">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 id="gift-delete-dialog-label">Really Delete Gift Suggestion?</h3>
+        </div>
+        <div class="modal-body">
+          <form action="{{prefix}}/lists/delete/gift/" method="post">
+            <input type="hidden" name="list" value="{{list.key()}}">
+            <input id="wg-dialog-key" type="hidden" name="gift" value="">
             <p>Are you sure you want to delete the gift suggestion <strong id="wg-dialog-title"></strong>?</p>
-          </div>
-          <div class="modal-footer">
+        </div>
+        <div class="modal-footer">
             <button type="button" class="btn" data-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-danger">Delete Gift Suggestion</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
       {% endif %}
     {% endif %}
