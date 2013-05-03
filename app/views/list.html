@@ -114,7 +114,6 @@
           <div class="content-entry content-entry-header">{{categories[answer.grouper]}}</div>
           {% for survey in answer.list|sort(attribute='timestamp', reverse=True) %}
             <div class="content-entry">
-              {{survey.item}}
               <ul class="nav nav-pills pull-right">
                 <li class="disabled"><a>{{survey.timestamp|timesince}}</a></li>
                 {% if editor %}
@@ -122,6 +121,7 @@
                   <li><a class="wg-dialog-link" href="#survey-delete-dialog" wg-dialog-key="{{survey.key()}}" wg-dialog-title="{{categories[answer.grouper]}}: {{survey.item}}" title="Delete"><i class="icon-remove"></i></a></li>
                 {% endif %}
               </ul>
+              {{survey.item}}
             </div>
           {% endfor %}
           {% if not loop.last %}
@@ -213,35 +213,19 @@
           </div>
         </div>
       {% endif %}
+    {% else %}
+      <ul class="nav nav-pills">
+        <li {% if sort == 'date' %}class="active"{% endif %}><a href="?sort=date#gifts">by date added</a></li>
+        <li {% if sort == 'name' %}class="active"{% endif %}><a href="?sort=name#gifts">by name</a></li>
+        <li {% if sort == 'cost' %}class="active"{% endif %}><a href="?sort=cost#gifts">by cost</a></li>
+        <li {% if sort == 'rating' %}class="active"{% endif %}><a href="?sort=rating#gifts">by rating</a></li>
+      </ul>
     {% endif %}
 
     <div class="content-entry-list wot-links">
       {% if gifts %}
-        {% for gift in gifts|sort(attribute='timestamp', reverse=True) %}
-          <div class="content-entry">
-            {% if not editor %}
-              {% if gift.purchased %}
-                <del>
-              {% endif %}
-            {% endif %}
-            {% if gift.link %}
-              <a href="{{gift.link}}" target="_blank">
-            {% endif %}
-            {{gift.item}}
-            {% if gift.link %}
-              </a> [@{{gift.link|link_domain}}]
-            {% endif %}
-            {% if gift.cost %}
-              &nbsp;${{gift.cost}}
-            {% endif %}
-            {% if not editor %}
-              {%if gift.purchased %}
-                </del>
-              {% endif %}
-            {% endif %}
-            {% if gift.stars %}
-              &nbsp;{% for i in range(gift.stars) %}<i class="icon-star"></i>{% endfor %}
-            {% endif %}
+        {% for gift in gifts %}
+          <div class="content-entry container-fluid">
             <ul class="nav nav-pills pull-right">
               <li class="disabled"><a>{{gift.timestamp|timesince}}</a></li>
               {% if editor %}
@@ -249,12 +233,35 @@
                 <li><a class="wg-dialog-link" href="#gift-delete-dialog" wg-dialog-key="{{gift.key()}}" wg-dialog-title="{{gift.item}}" title="Delete"><i class="icon-remove"></i></a></li>
               {% else %}
                 {% if gift.purchased %}
-                  <li><a href="{{prefix}}/lists/unpurchase/gift/{{gift.key()}}" title="Undo purchas"><i class="icon-random"></i></a></li>
+                  <li><a href="{{prefix}}/lists/unpurchase/gift/{{gift.key()}}" title="Undo purchase"><i class="icon-random"></i></a></li>
                 {% else %}
                   <li><a href="{{prefix}}/lists/purchase/gift/{{gift.key()}}" title="Purchase"><i class="icon-gift"></i></a></li>
                 {% endif %}
               {% endif %}
             </ul>
+            {% if not editor %}
+              {% if gift.purchased %}
+                <del>
+              {% endif %}
+            {% endif %}
+            {{gift.item}}
+            {% if not editor %}
+              {%if gift.purchased %}
+                </del>
+              {% endif %}
+            {% endif %}
+            <br>
+            <span class="content-entry-details">
+            {% if gift.stars %}
+              {%- for i in range(gift.stars) %}<i class="icon-star icon-white"></i>{% endfor %}{% for i in range(5 - gift.stars) %}<i class="icon-star" style="opacity: 0.6;"></i>{% endfor -%}&nbsp;&nbsp;
+            {% endif %}
+            {% if gift.cost %}
+              ${{gift.cost}}&nbsp;&nbsp;
+            {% endif %}
+            {% if gift.link %}
+              <a href="{{gift.link}}" target="_blank">{{gift.link|short_url}}</a>
+            {% endif %}
+            </span>
           </div>
         {% endfor %}
       {% else %}

@@ -66,25 +66,25 @@
       {% if member_lists %}
         {% for entry in member_lists %}
           <div class="content-entry content-entry-header">
+            {% if editor %}
+              <ul class="nav nav-pills pull-right">
+                <li><a class="wg-dialog-link" href="#member-delete-dialog" wg-dialog-key="{{entry.member.key()}}" wg-dialog-title="{{entry.name}}" title="Remove"><i class="icon-ban-circle"></i></a></li>
+              </ul>
+            {% endif %}
             {{entry.name}}
             {% if user == entry.member.owner %}
               {% if not settings %}
                 <a href="{{prefix}}/settings">(customize your name)</a>
               {% endif %}
             {% endif %}
-            {% if editor %}
-              <ul class="nav nav-pills pull-right">
-                <li><a class="wg-dialog-link" href="#member-delete-dialog" wg-dialog-key="{{entry.member.key()}}" wg-dialog-title="{{entry.name}}" title="Remove"><i class="icon-ban-circle"></i></a></li>
-              </ul>
-            {% endif %}
           </div>
           {% if entry.lists %}
             {% for list in entry.lists|sort(attribute='title') %}
               <div class="content-entry">
-                <a href="{{prefix}}/lists/{{list.key()}}">{{list.title}}</a>
                 <ul class="nav nav-pills pull-right">
                   <li class="disabled"><a>{{list.timestamp|timesince}}</a></li>
                 </ul>
+                <a href="{{prefix}}/lists/{{list.key()}}">{{list.title}}</a>
               </div>
             {% endfor %}
           {% else %}
@@ -180,12 +180,12 @@
       {% if invites %}
         {% for invite in invites %}
           <div class="content-entry">
-            {{invite.email}}: <em>{{invite.code}}</em>
             <ul class="nav nav-pills pull-right">
               <li class="disabled"><a>{{invite.timestamp|timesince}}</a></li>
               <li><a class="wg-dialog-link" href="#invite-help-dialog" wg-dialog-title="{{invite.code}}" title="Help"><i class="icon-question-sign"></i></a></li>
               <li><a class="wg-dialog-link" href="#invite-delete-dialog" wg-dialog-key="{{invite.key()}}" wg-dialog-title="{{invite.email}}" title="Cancel"><i class="icon-remove"></i></a></li>
             </ul>
+            {{invite.email}}: <em>{{invite.code}}</em>
           </div>
         {% endfor %}
       {% else %}

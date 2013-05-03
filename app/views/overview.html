@@ -71,11 +71,11 @@
       {% if lists %}
         {% for list in lists|sort(attribute='title') %}
           <div class="content-entry">
-            <a href="{{prefix}}/lists/{{list.key()}}">{{list.title}}</a>
             <ul class="nav nav-pills pull-right">
               <li class="disabled"><a>{{list.timestamp|timesince}}</a></li>
               <li><a class="wg-dialog-link" href="#list-delete-dialog" wg-dialog-key="{{list.key()}}" wg-dialog-title="{{list.title}}" title="Delete"><i class="icon-remove"></i></a></li>
             </ul>
+            <a href="{{prefix}}/lists/{{list.key()}}">{{list.title}}</a>
           </div>
         {% endfor %}
       {% else %}
@@ -172,7 +172,6 @@
       {% if groups %}
         {% for group in groups|sort(attribute='entity.title') %}
           <div class="content-entry">
-            <a href="{{prefix}}/groups/{{group.entity.key()}}">{{group.entity.title}}</a>
             <ul class="nav nav-pills pull-right">
               {% if group.member %}
                 <li><a class="wg-dialog-link" href="#group-quit-dialog" wg-dialog-key="{{group.entity.key()}}" wg-dialog-title="{{group.entity.title}}" title="Quit"><i class="icon-ban-circle"></i></a></li>
@@ -181,6 +180,7 @@
                 <li><a class="wg-dialog-link" href="#group-delete-dialog" wg-dialog-key="{{group.entity.key()}}" wg-dialog-title="{{group.entity.title}}" title="Delete"><i class="icon-remove"></i></a></li>
               {% endif %}
             </ul>
+            <a href="{{prefix}}/groups/{{group.entity.key()}}">{{group.entity.title}}</a>
           </div>
         {% endfor %}
       {% else %}
