@@ -26,6 +26,21 @@ class Display(base.RequestHandler):
 
     def get(self, list_key):
         template_vals = app.models.lists.get_surveys_and_gifts(list_key)
+        sort = self.request.get('sort', default_value='date')
+        # Base sort is by date.
+        template_vals['gifts'] = sorted(
+            template_vals['gifts'], key=lambda x: x.timestamp, reverse=True)
+        # Additional optional sorts.
+        if sort == 'name':
+            template_vals['gifts'] = sorted(
+                template_vals['gifts'], key=lambda x: x.item)
+        elif sort == 'cost':
+            template_vals['gifts'] = sorted(
+                template_vals['gifts'], key=lambda x: x.cost)
+        elif sort == 'rating':
+            template_vals['gifts'] = sorted(
+                template_vals['gifts'], key=lambda x: x.stars, reverse=True)
+        template_vals['sort'] = sort
         self.render('list.html', **template_vals)
 
 

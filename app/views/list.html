@@ -213,11 +213,18 @@
           </form>
         </div>
       {% endif %}
+    {% else %}
+      <ul class="nav nav-pills">
+        <li {% if sort == 'date' %}class="active"{% endif %}><a href="?sort=date#gifts">by date added</a></li>
+        <li {% if sort == 'name' %}class="active"{% endif %}><a href="?sort=name#gifts">by name</a></li>
+        <li {% if sort == 'cost' %}class="active"{% endif %}><a href="?sort=cost#gifts">by cost</a></li>
+        <li {% if sort == 'rating' %}class="active"{% endif %}><a href="?sort=rating#gifts">by rating</a></li>
+      </ul>
     {% endif %}
 
     <div class="content-entry-list wot-links">
       {% if gifts %}
-        {% for gift in gifts|sort(attribute='timestamp', reverse=True) %}
+        {% for gift in gifts %}
           <div class="content-entry container-fluid">
             <ul class="nav nav-pills pull-right">
               <li class="disabled"><a>{{gift.timestamp|timesince}}</a></li>
