@@ -32,6 +32,7 @@
   <h2>Display Name</h2>
   <br>
   <form class="form-horizontal" action="{{prefix}}/settings" method="post">
+    <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
     <div class="control-group">
       <label class="control-label" for="settings-firstname">First name</label>
       <div class="controls">

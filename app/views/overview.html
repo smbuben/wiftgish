@@ -46,6 +46,7 @@
         </div>
         <div class="modal-body">
           <form class="form-horizontal" action="{{prefix}}/lists/create/" method="post">
+            <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
             <div class="control-group">
               <label class="control-label" for="list-create-title">Title <span class="text-required">*</span></label>
               <div class="controls">
@@ -91,6 +92,7 @@
         </div>
         <div class="modal-body">
           <form action="{{prefix}}/lists/delete/" method="post">
+            <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
             <input id="wg-dialog-key" type="hidden" name="list" value="">
             <p>Are you sure you want to delete the list <strong id="wg-dialog-title"></strong>? Deleting a list will also remove all survey answers and gift suggestions that have been added to it.</p>
         </div>
@@ -125,6 +127,7 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal" action="{{prefix}}/groups/create/member/" method="post">
+          <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
           <div class="control-group">
             <label class="control-label" for="group-join-code">Invitation code <span class="text-required">*</span></label>
             <div class="controls">
@@ -147,6 +150,7 @@
         </div>
         <div class="modal-body">
           <form class="form-horizontal" action="{{prefix}}/groups/create/" method="post">
+            <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
             <div class="control-group">
               <label class="control-label" for="group-create-title">Title <span class="text-required">*</span></label>
               <div class="controls">
@@ -196,6 +200,7 @@
         </div>
         <div class="modal-body">
           <form action="{{prefix}}/groups/delete/self/" method="post">
+            <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
             <input id="wg-dialog-key" type="hidden" name="group" value="">
             <p>Are you sure you want to quit the group <strong id="wg-dialog-title"></strong>? You will only be able to rejoin if a new invitation code is sent to you by the group creator.</p>
         </div>
@@ -213,6 +218,7 @@
         </div>
         <div class="modal-body">
           <form action="{{prefix}}/groups/delete/" method="post">
+            <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
             <input id="wg-dialog-key" type="hidden" name="group" value="">
             <p>Are you sure you wnat to delete the group <strong id="wg-dialog-title"></strong>? This will not affect the lists of you or any group members.</p>
         </div>

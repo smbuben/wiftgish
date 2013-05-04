@@ -32,6 +32,7 @@
   <h2>Update Gift Suggestion</h2>
   <br>
   <form class="form-horizontal" action="{{prefix}}/lists/update/gift/{{gift.key()}}" method="post">
+    <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
     <div class="control-group">
       <label class="control-label" for="gift-update-item">Gift <span class="text-required">*</span></label>
       <div class="controls">

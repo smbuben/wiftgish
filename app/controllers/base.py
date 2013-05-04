@@ -22,6 +22,8 @@ import webapp2_extras.sessions
 import webapp2_extras.jinja2
 import app.config
 import app.models.overview
+import hashlib
+import time
 
 
 class RequestHandler(webapp2.RequestHandler):
@@ -36,11 +38,30 @@ class RequestHandler(webapp2.RequestHandler):
         # Get the session store for this request.
         self.session_store = \
             webapp2_extras.sessions.get_store(request=self.request)
+        # Validate the XSRF token for every HTTP POST.
+        if self.request.method.lower() == 'post':
+            request_token = self.request.get('_xsrf_token')
+            if not request_token or request_token != self.xsrf_token():
+                self.abort(403)
         try:
             webapp2.RequestHandler.dispatch(self)
         finally:
             # Save all sessions.
             self.session_store.save_sessions(self.response)
+
+    def xsrf_token(self):
+        token = self.session.get('_xsrf_token')
+        if not token:
+            from google.appengine.api import users
+            user = users.get_current_user()
+            sha1 = hashlib.sha1()
+            sha1.update(
+                str(time.time())
+                + user.email()
+                + user.user_id()
+                + self.app.config.get('private_salt'))
+            token = self.session['_xsrf_token'] = sha1.hexdigest()
+        return token
 
     @webapp2.cached_property
     def session(self):
@@ -59,6 +80,8 @@ class RequestHandler(webapp2.RequestHandler):
         template_vals.update(
             {
                 'prefix' :      app.config.PATH_PREFIX,
+                'xsrf_key' :    '_xsrf_token',
+                'xsrf_value' :  self.xsrf_token(),
                 'breadcrumb' :  self.session.get('breadcrumb'),
                 'messages' :    self.session.get_flashes(),
             })

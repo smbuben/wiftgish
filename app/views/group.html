@@ -35,6 +35,7 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal" action="{{prefix}}/groups/update/" method="post">
+          <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
           <input type="hidden" name="group" value="{{group.key()}}">
           <div class="control-group">
             <label class="control-label" for="group-edit-title">Title <span class="text-required">*</span></label>
@@ -108,6 +109,7 @@
           </div>
           <div class="modal-body">
             <form action="{{prefix}}/groups/delete/member/" method="post">
+              <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
               <input id="wg-dialog-key" type="hidden" name="member" value="">
               <p>Are you sure you want to remove member <strong id="wg-dialog-title"></strong> from the group? Once a member is removed their lists will now longer be viewable, and they will not be able to view other members' lists.</p>
           </div>
@@ -141,6 +143,7 @@
         </div>
         <div class="modal-body">
           <form class="form-horizontal" action="{{prefix}}/groups/create/invitation/" method="post">
+            <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
             <input type="hidden" name="group" value="{{group.key()}}">
             <div class="control-group">
               <label class="control-label" for="invite-create-email">Invitee's email <span class="text-required">*</span></label>
@@ -213,6 +216,7 @@
         </div>
         <div class="modal-body">
           <form action="{{prefix}}/groups/delete/invitation/" method="post">
+            <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
             <input id="wg-dialog-key" type="hidden" name="invite" value="">
             <p>Are you sure you want to cancel the invitation for <strong id="wg-dialog-title"></strong>? A cancelled invitation can no longer be used to join the group. A new invitation will need to be created for the invitee.</p>
         </div>

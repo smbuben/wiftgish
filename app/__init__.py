@@ -96,14 +96,18 @@ wsgi_app = webapp2.WSGIApplication([
     config={
         'webapp2_extras.sessions' :
             {
-                'secret_key' :      private.session_cookie_key,
+                'secret_key' :          private.session_cookie_key,
+                'cookie_args' :
+                    {
+                        'httponly' :    True,
+                    },
             },
         'webapp2_extras.jinja2' :
             {
-                'template_path' :   'app/views',
-                'filters' :         jinja2_extras.filters.all_filters,
+                'template_path' :       'app/views',
+                'filters' :             jinja2_extras.filters.all_filters,
             },
-        'private_salt' :            private.salt,
+        'private_salt' :                private.salt,
     },
     debug=os.environ.get('SERVER_SOFTWARE', '').startswith('Dev'))
 
@@ -116,6 +120,11 @@ def render_error(template):
     jinja2 = webapp2_extras.jinja2.get_jinja2(app=wsgi_app)
     return jinja2.render_template(template, **template_vals)
 
+def handle_403(request, response, exception):
+    logging.exception(exception)
+    response.write(render_error('error_403.html'))
+    response.set_status(403)
+
 def handle_404(request, response, exception):
     logging.exception(exception)
     response.write(render_error('error_404.html'))
@@ -126,6 +135,7 @@ def handle_500(request, response, exception):
     response.write(render_error('error_500.html'))
     response.set_status(500)
 
+wsgi_app.error_handlers[403] = handle_403
 wsgi_app.error_handlers[404] = handle_404
 wsgi_app.error_handlers[500] = handle_500
 

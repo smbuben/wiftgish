@@ -39,6 +39,7 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal" action="{{prefix}}/lists/update/" method="post">
+          <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
           <input type="hidden" name="list" value="{{list.key()}}">
           <div class="control-group">
             <label class="control-label" for="list-edit-title">Title <span class="text-required">*</span></label>
@@ -81,6 +82,7 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal" action="{{prefix}}/lists/create/survey/" method="post">
+              <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
               <input type="hidden" name="list" value="{{list.key()}}">
               <div class="control-group">
                 <label class="control-label" for="survey-create-category">Category <span class="text-required">*</span></label>
@@ -142,6 +144,7 @@
           </div>
           <div class="modal-body">
             <form action="{{prefix}}/lists/delete/survey/" method="post">
+              <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
               <input type="hidden" name="list" value="{{list.key()}}">
               <input id="wg-dialog-key" type="hidden" name="survey" value="">
               <p>Are you sure you want to delete the survey answer <strong id="wg-dialog-title"></strong>?</p>
@@ -176,6 +179,7 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal" action="{{prefix}}/lists/create/gift/" method="post">
+              <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
               <input type="hidden" name="list" value="{{list.key()}}">
               <div class="control-group">
                 <label class="control-label" for="gift-create-item">Gift <span class="text-required">*</span></label>
@@ -278,6 +282,7 @@
         </div>
         <div class="modal-body">
           <form action="{{prefix}}/lists/delete/gift/" method="post">
+            <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
             <input type="hidden" name="list" value="{{list.key()}}">
             <input id="wg-dialog-key" type="hidden" name="gift" value="">
             <p>Are you sure you want to delete the gift suggestion <strong id="wg-dialog-title"></strong>?</p>
