@@ -24,6 +24,12 @@
 {% block title %}{{owner}}: {{list.title}}{% endblock %}
 
 {% block subhead %}
+  {% if editor %}
+    <ul class="nav nav-pills pull-right">
+      <li><a class="wg-dialog-link" href="#list-delete-dialog" wg-dialog-key="{{list.key()}}" wg-dialog-title="{{list.title}}" title="Delete"><i class="icon-trash"></i></a></li>
+    </ul>
+  {% endif %}
+
   <h1>{{owner}}: {{list.title}}</h1>
   <p class="lead">{{list.description|linebreaks}}</p>
   {% if editor %}
@@ -32,6 +38,8 @@
   <p><small><span class="muted">This list was last updated {{list.timestamp|timesince(verbose=True)}}.</span></small></p>
 
   {% if editor %}
+    {% include 'list-delete-dialog.html' %}
+
     <div id="list-edit-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="list-edit-dialog-label" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -120,7 +128,7 @@
                 <li class="disabled"><a>{{survey.timestamp|timesince}}</a></li>
                 {% if editor %}
                   <li><a href="{{prefix}}/lists/update/survey/{{survey.key()}}" title="Edit"><i class="icon-wrench"></i></a></li>
-                  <li><a class="wg-dialog-link" href="#survey-delete-dialog" wg-dialog-key="{{survey.key()}}" wg-dialog-title="{{categories[answer.grouper]}}: {{survey.item}}" title="Delete"><i class="icon-remove"></i></a></li>
+                  <li><a class="wg-dialog-link" href="#survey-delete-dialog" wg-dialog-key="{{survey.key()}}" wg-dialog-title="{{categories[answer.grouper]}}: {{survey.item}}" title="Delete"><i class="icon-trash"></i></a></li>
                 {% endif %}
               </ul>
               {{survey.item}}
@@ -234,7 +242,7 @@
               <li class="disabled"><a>{{gift.timestamp|timesince}}</a></li>
               {% if editor %}
                 <li><a href="{{prefix}}/lists/update/gift/{{gift.key()}}" title="Edit"><i class="icon-wrench"></i></a></li>
-                <li><a class="wg-dialog-link" href="#gift-delete-dialog" wg-dialog-key="{{gift.key()}}" wg-dialog-title="{{gift.item}}" title="Delete"><i class="icon-remove"></i></a></li>
+                <li><a class="wg-dialog-link" href="#gift-delete-dialog" wg-dialog-key="{{gift.key()}}" wg-dialog-title="{{gift.item}}" title="Delete"><i class="icon-trash"></i></a></li>
               {% else %}
                 {% if gift.purchased %}
                   <li><a href="{{prefix}}/lists/unpurchase/gift/{{gift.key()}}" title="Undo purchase"><i class="icon-random"></i></a></li>
