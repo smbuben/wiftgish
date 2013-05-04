@@ -96,14 +96,18 @@ wsgi_app = webapp2.WSGIApplication([
     config={
         'webapp2_extras.sessions' :
             {
-                'secret_key' :      private.session_cookie_key,
+                'secret_key' :          private.session_cookie_key,
+                'cookie_args' :
+                    {
+                        'httponly' :    True,
+                    },
             },
         'webapp2_extras.jinja2' :
             {
-                'template_path' :   'app/views',
-                'filters' :         jinja2_extras.filters.all_filters,
+                'template_path' :       'app/views',
+                'filters' :             jinja2_extras.filters.all_filters,
             },
-        'private_salt' :            private.salt,
+        'private_salt' :                private.salt,
     },
     debug=os.environ.get('SERVER_SOFTWARE', '').startswith('Dev'))
 
