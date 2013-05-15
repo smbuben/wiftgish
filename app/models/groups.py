@@ -457,8 +457,10 @@ def create_member(invitation_code):
                 'WHERE owner = :1', user
             ).fetch(None)
         cache_vals[cache_keys[1]] = memberships
+    if cache_vals:
+        memcache.set_multi(cache_vals, time=app.config.TIME_CACHE_DATA)
     for m in memberships:
-        if models.Member.group.get_value_for_datastore(m) == group_key:
+        if str(models.Member.group.get_value_for_datastore(m)) == group_key:
             break
     else:
         member = models.Member(
@@ -466,8 +468,6 @@ def create_member(invitation_code):
             group=group)
         member.put()
         __update_cached_member(group, member)
-    if cache_vals:
-        memcache.set_multi(cache_vals, time=app.config.TIME_CACHE_DATA)
     return group_key
 
 
