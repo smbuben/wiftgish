@@ -199,11 +199,11 @@
           <div class="control-group">
             <label class="control-label" for="survey-create-category">Category <span class="text-required">*</span></label>
             <div class="controls">
-              {% for category in categories.items()|sort %}
-              <label class="radio">
-                <input type="radio" name="category" value="{{category.0}}">{{category.1}}
-              </label>
-              {% endfor %}
+              <select id="survey-create-category" name="category">
+                {% for category in categories.items()|sort %}
+                  <option value="{{category.0}}">{{category.1}}</option>
+                {% endfor %}
+              </select>
             </div>
           </div>
           <div class="control-group">
@@ -234,11 +234,11 @@
           <div class="control-group">
             <label class="control-label" for="survey-edit-category">Category <span class="text-required">*</span></label>
             <div class="controls">
-              {% for category in categories.items()|sort %}
-                <label class="radio">
-                  <input id="survey-edit-category{{category.0}}" type="radio" name="category" value="{{category.0}}">{{category.1}}
-                </label>
-              {% endfor %}
+              <select id="survey-edit-category" name="category">
+                {% for category in categories.items()|sort %}
+                  <option value="{{category.0}}">{{category.1}}</option>
+                {% endfor %}
+              </select>
             </div>
           </div>
           <div class="control-group">
@@ -306,7 +306,7 @@
           <div class="control-group">
             <label class="control-label">Stars</label>
             <div class="controls">
-              <select name="stars">
+              <select id="gift-create-stars" name="stars">
               {% for i in range(1, 6) %}
                 <option>{{i}}</option>
               {% endfor %}
@@ -443,7 +443,7 @@
         var modal = $(this).attr("wg-modal");
         $("#survey-edit-key", modal).attr("value", $(this).attr("wg-survey-edit-key"));
         $("#survey-edit-item", modal).attr("value", $(this).attr("wg-survey-edit-item"));
-        $("#survey-edit-category" + $(this).attr("wg-survey-edit-category")).prop("checked", true);
+        $("#survey-edit-category", modal).val($(this).attr("wg-survey-edit-category")).attr("selected", "selected");
         $(modal).modal("show");
         return false;
       }
