@@ -33,8 +33,5 @@ class Handler(base.RequestHandler):
         app.models.settings.update_settings(
             self.request.get('firstname'),
             self.request.get('lastname'))
-        self.flash(
-            'Your settings have been updated.',
-            level=self.flash_success)
-        self.go('/settings')
+        self.ajax_success()
 

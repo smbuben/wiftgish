@@ -196,6 +196,10 @@
 
     /* Misc style
      * -------------------------------------- */
+    .modal-body {
+      max-height: 800px;
+    }
+
     .text-required {
       color: #9d261d;
       font-weight: bold;
@@ -323,45 +327,56 @@
   <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript">
     !function ($) {
-      $(function(){
-        $("a.wg-dialog-link").click(
-          function() {
-            var $modal = $(this).attr("href");
-            $("#wg-dialog-key", $modal).attr(
-              "value",
-              $(this).attr("wg-dialog-key")
-            );
-            $("#wg-dialog-title", $modal).text(
-              $(this).attr("wg-dialog-title")
-            );
-            $($modal).modal("show");
-            return false;
-          }
-        );
+      $(function() {
 
         function affix(e) {
-          var $window = $(window);
-          var $sidenav = $(".wg-nav-sidenav");
-          /* Disable any previously set affix handlers. */
-          $window.off(".affix");
-          $sidenav.removeData("affix");
-          $sidenav.removeClass("affix affix-top affix-bottom");
-          /* Enable an affix if the window is tall enough. */
-          if ($sidenav.height() < ($window.height() - 60)) {
-            var y = $sidenav.position().top - ($window.width() > 980 ? 60 : 20);
-            $sidenav.affix({
-              offset: {top: y}
-            });
+          if ($(".wg-nav-sidenav").length) {
+            var $window = $(window);
+            var $sidenav = $(".wg-nav-sidenav");
+            /* Disable any previously set affix handlers. */
+            $window.off(".affix");
+            $sidenav.removeData("affix");
+            $sidenav.removeClass("affix affix-top affix-bottom");
+            /* Enable an affix if the window is tall enough. */
+            if ($sidenav.height() < ($window.height() - 60)) {
+              var y = $sidenav.position().top - ($window.width() > 980 ? 60 : 20);
+              $sidenav.affix({ offset: {top: y} });
+            }
           }
         }
         affix(null);
 
         /* Redo the affix calculations when the window is resized. */
         $(window).resize(affix);
+
+        /* If an Ajax call fails, show the actual error page instead of hanging. */
+        $(document).ajaxError(
+          function(event, jqxhr) {
+            $(document.body).html(jqxhr.responseText);
+            /* Remove scrollbars from the displayed error page. */
+            $('html, body').css("height", "auto");
+          }
+        );
+
+        var alert_dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+        var alert_error_start = '<div class="alert alert-error text-center">' + alert_dismiss + '<span><strong>Uh oh!</strong> ';
+        var alert_info_start = '<div class="alert alert-info text-center">' + alert_dismiss + '<span>';
+        var alert_end = '</span></div>';
+
+        $("#wg-wrapper").on("click", "a.wg-delete-dialog-link",
+          function() {
+            var $modal = $($(this).attr("href"));
+            $("#wg-delete-dialog-key", $modal).attr("value", $(this).attr("wg-delete-dialog-key"));
+            $("#wg-delete-dialog-title", $modal).text($(this).attr("wg-delete-dialog-title"));
+            $($modal).modal("show");
+            return false;
+          }
+        );
+
+        {% block custom_script %}{% endblock %}
       })
     }(window.jQuery)
   </script>
-  {% block end_of_page %}{% endblock %}
 </body>
 {% endautoescape %}
 </html>

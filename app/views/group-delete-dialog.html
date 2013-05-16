@@ -24,10 +24,10 @@
     <h2 id="group-delete-dialog-label">Really Delete Group?</h2>
   </div>
   <div class="modal-body">
-    <form action="{{prefix}}/groups/delete/" method="post">
+    <form id="group-delete-form" action="{{prefix}}/groups/delete-redirect/" method="post">
       <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
-      <input id="wg-dialog-key" type="hidden" name="group" value="">
-      <p>Are you sure you want to delete the group <strong id="wg-dialog-title"></strong>? This will not affect your lists or the lists any group members, but you will no longer be able to share lists with this group.</p>
+      <input id="wg-delete-dialog-key" type="hidden" name="group" value="">
+      <p>Are you sure you want to delete the group <strong id="wg-delete-dialog-title"></strong>? This will not affect your lists or the lists any group members, but you will no longer be able to share lists with this group.</p>
   </div>
   <div class="modal-footer">
       <button type="button" class="btn" data-dismiss="modal">Cancel</button>

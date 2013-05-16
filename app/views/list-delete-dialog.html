@@ -24,10 +24,10 @@
     <h2 id="list-delete-dialog-label">Really Delete Wish List?</h2>
   </div>
   <div class="modal-body">
-    <form action="{{prefix}}/lists/delete/" method="post">
+    <form id="list-delete-form" action="{{prefix}}/lists/delete-redirect/" method="post">
       <input type="hidden" name="{{xsrf_key}}" value="{{xsrf_value}}">
-      <input id="wg-dialog-key" type="hidden" name="list" value="">
-      <p>Are you sure you want to delete the list <strong id="wg-dialog-title"></strong>? Deleting a list will also remove all survey answers and gift suggestions that have been added to it.</p>
+      <input id="wg-delete-dialog-key" type="hidden" name="list" value="">
+      <p>Are you sure you want to delete the list <strong id="wg-delete-dialog-title"></strong>? Deleting a list will also remove all survey answers and gift suggestions that have been added to it.</p>
   </div>
   <div class="modal-footer">
       <button type="button" class="btn" data-dismiss="modal">Cancel</button>

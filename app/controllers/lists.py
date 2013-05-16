@@ -52,15 +52,13 @@ class Create(base.RequestHandler):
             description = self.request.get('description')
             list_key = app.models.lists.create_list(title, description)
         except app.models.errors.MaxValueError:
-            self.flash(
-                'You\'ve already created the maximum number of lists.')
+            alert = 'You\'ve already created the maximum number of lists.'
+            self.ajax_fail(alert=alert)
         except app.models.errors.BadValueError:
-            self.flash(
-                'You didn\'t enter something quite right. '
-                'Please try again.')
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
         else:
-            return self.go('/lists/' + list_key)
-        self.go('/')
+            self.ajax_success(redirect='/lists/' + list_key)
 
 
 class CreateSurvey(base.RequestHandler):
@@ -72,15 +70,13 @@ class CreateSurvey(base.RequestHandler):
             category = self.request.get('category')
             app.models.lists.create_survey(list_key, item, category)
         except app.models.errors.MaxValueError:
-            self.flash(
-                'You\'ve already created the maximum number of survey answers.')
+            alert = 'You\'ve already created the maximum number of survey answers.'
+            self.ajax_fail(alert=alert)
         except app.models.errors.BadValueError:
-            self.flash(
-                'You didn\'t enter something quite right. '
-                'Please try again.')
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
         else:
-            return self.go('/lists/' + list_key + '#surveys')
-        self.go('/lists/' + list_key)
+            self.ajax_success()
 
 
 class CreateGift(base.RequestHandler):
@@ -94,15 +90,13 @@ class CreateGift(base.RequestHandler):
             stars = self.request.get('stars')
             app.models.lists.create_gift(list_key, item, link, cost, stars)
         except app.models.errors.MaxValueError:
-            self.flash(
-                'You\'ve already created the maximum number of  gift suggestions.')
+            alert = 'You\'ve already created the maximum number of gift suggestions.'
+            self.ajax_fail(alert=alert)
         except app.models.errors.BadValueError:
-            self.flash(
-                'You didn\'t enter something quite right. '
-                'Please try again.')
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
         else:
-            return self.go('/lists/' + list_key + '#gifts')
-        self.go('/lists/' + list_key)
+            self.ajax_success()
 
 
 class Update(base.RequestHandler):
@@ -114,57 +108,53 @@ class Update(base.RequestHandler):
             description = self.request.get('description')
             app.models.lists.update_list(list_key, title, description)
         except app.models.errors.BadValueError:
-            self.flash(
-                'You didn\'t enter something quite right. '
-                'Please try again.')
-        self.go('/lists/' + list_key)
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
+        else:
+            self.ajax_success()
 
 
 class UpdateSurvey(base.RequestHandler):
 
-    def get(self, survey_key):
-        template_vals = app.models.lists.get_survey(survey_key)
-        self.render('survey.html', **template_vals)
-
-
-    def post(self, survey_key):
+    def post(self):
         try:
+            survey_key = self.request.get('survey')
             item = self.request.get('item')
             category = self.request.get('category')
-            list_key = app.models.lists.update_survey(survey_key, item, category)
+            app.models.lists.update_survey(survey_key, item, category)
         except app.models.errors.BadValueError:
-            self.flash(
-                'You didn\'t enter something quite right. '
-                'Please try again.')
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
         else:
-            return self.go('/lists/' + list_key + '#surveys')
-        self.go('/lists/update/survey/' + survey_key)
+            self.ajax_success()
 
 
 class UpdateGift(base.RequestHandler):
 
-    def get(self, gift_key):
-        template_vals = app.models.lists.get_gift(gift_key)
-        self.render('gift.html', **template_vals)
-
-
-    def post(self, gift_key):
+    def post(self):
         try:
+            gift_key = self.request.get('gift')
             item = self.request.get('item')
             cost = self.request.get('cost')
             link = self.request.get('link')
             stars = self.request.get('stars')
-            list_key = app.models.lists.update_gift(gift_key, item, link, cost, stars)
+            app.models.lists.update_gift(gift_key, item, link, cost, stars)
         except app.models.errors.BadValueError:
-            self.flash(
-                'You didn\'t enter something quite right. '
-                'Please try again.')
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
         else:
-            return self.go('/lists/' + list_key + '#gifts')
-        self.go('/lists/update/gift/' + gift_key)
+            self.ajax_success()
 
 
 class Delete(base.RequestHandler):
+
+    def post(self):
+        list_key = self.request.get('list')
+        app.models.lists.delete_list(list_key)
+        self.ajax_success()
+
+
+class DeleteWithRedirect(base.RequestHandler):
 
     def post(self):
         list_key = self.request.get('list')
@@ -179,7 +169,7 @@ class DeleteSurvey(base.RequestHandler):
         list_key = self.request.get('list')
         survey_key = self.request.get('survey')
         app.models.lists.delete_survey(survey_key)
-        self.go('/lists/' + list_key + '#surveys')
+        self.ajax_success()
 
 
 class DeleteGift(base.RequestHandler):
@@ -188,19 +178,19 @@ class DeleteGift(base.RequestHandler):
         list_key = self.request.get('list')
         gift_key = self.request.get('gift')
         app.models.lists.delete_gift(gift_key)
-        self.go('/lists/' + list_key + '#gifts')
+        self.ajax_success()
 
 
 class PurchaseGift(base.RequestHandler):
 
     def get(self, gift_key):
-        list_key = app.models.lists.purchase_gift(gift_key)
-        self.go('/lists/' + list_key + '#gifts')
+        app.models.lists.purchase_gift(gift_key)
+        self.ajax_success()
 
 
 class UnpurchaseGift(base.RequestHandler):
 
     def get(self, gift_key):
-        list_key = app.models.lists.unpurchase_gift(gift_key)
-        self.go('/lists/' + list_key + '#gifts')
+        app.models.lists.unpurchase_gift(gift_key)
+        self.ajax_success()
 

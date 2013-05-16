@@ -46,19 +46,18 @@ class Create(base.RequestHandler):
             message = self.request.get('message')
             group_key = app.models.groups.create_group(title, message)
         except app.models.errors.MaxValueError:
-            self.flash(
-                'You\'ve already created the maximum number of groups.')
+            alert = 'You\'ve already created the maximum number of groups.'
+            self.ajax_fail(alert=alert)
         except app.models.errors.BadValueError:
-            self.flash(
-                'You didn\'t enter something quite right. '
-                'Please try again.')
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
         except app.models.errors.GroupJoinError:
-            self.flash(
-                'We couldn\'t add you to this group. '
-                'Please create an invitation for yourself.')
+            alert = 'The group %s was created, but you aren\'t a member yet. ' \
+                    'Please create an invitation for yourself.' \
+                    % (title)
+            self.ajax_success(alert=alert)
         else:
-            return self.go('/groups/' + group_key)
-        self.go('/')
+            self.ajax_success(redirect='/groups/' + group_key)
 
 
 class CreateInvitation(base.RequestHandler):
@@ -72,28 +71,24 @@ class CreateInvitation(base.RequestHandler):
             salt = self.app.config.get('private_salt')
             app.models.groups.create_invitation(group_key, email, message, send, salt)
         except app.models.errors.BadValueError:
-            self.flash(
-                'That\'s not a valid email address. '
-                'Please try again.')
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
         except app.models.errors.MailError:
-            self.flash(
-                'We couldn\'t send the invitation to %s on your behalf. '
-                'You will have to send it manually.'
-                    % (email))
+            alert = 'A new invitation has been created, ' \
+                    'but we couldn\'t send it to %s. ' \
+                    'You will have to send the invitation code yourself.' \
+                    % (email)
+            self.ajax_success(alert=alert)
         else:
-            # Give additional positive feedback if the invitation is to be sent.
             if send:
-                self.flash(
-                    'An invitation has been sent to %s. ' % (email),
-                    level=self.flash_success)
+                alert = 'An invitation has been sent to %s' % (email)
+                self.ajax_success(alert=alert)
             else:
-                self.flash(
-                    'A new invitation was created. '
-                    'But, you will need to send the invitation to %s yourself.'
-                        % (email),
-                    level=self.flash_warn)
-        # Not redirecting to the invites anchor so the user can see the flash.
-        self.go('/groups/' + group_key)
+                alert = 'A new invitation has been created, ' \
+                        'but it has not been sent to %s. ' \
+                        'You will have to send the invitation code yourself.' \
+                        % (email)
+                self.ajax_success(alert=alert)
 
 
 class CreateMember(base.RequestHandler):
@@ -106,14 +101,23 @@ class CreateMember(base.RequestHandler):
             group_key = app.models.groups.create_member(code)
         except app.models.errors.GroupJoinError:
             self.flash(
-                'That invitation code is not valid. '
+                'That invitation is not valid. '
                 'Please contact the sender for a new invitation.')
+            self.go('/')
         else:
-            return self.go('/groups/' + group_key)
-        self.go('/')
+            self.go('/groups/' + group_key)
 
     def post(self):
-        self.get(self.request.get('code'))
+        try:
+            code = self.request.get('code')
+            group_key = app.models.groups.create_member(code)
+        except app.models.errors.GroupJoinError:
+            alert = 'The entered invitation code is not valid. ' \
+                    'Please check your entry and try again, ' \
+                    'or contact the sender for a new invitation.'
+            self.ajax_fail(alert=alert)
+        else:
+            self.ajax_success(redirect='/groups/' + group_key)
 
 
 class Update(base.RequestHandler):
@@ -125,13 +129,21 @@ class Update(base.RequestHandler):
             message = self.request.get('message')
             app.models.groups.update_group(group_key, title, message)
         except app.models.errors.BadValueError:
-            self.flash(
-                'You didn\'t enter something quite right. '
-                'Please try again.')
-        self.go('/groups/' + group_key)
+            alert = 'That doesn\'t look right. Check your entry and try again.'
+            self.ajax_fail(alert=alert)
+        else:
+            self.ajax_success()
 
 
 class Delete(base.RequestHandler):
+
+    def post(self):
+        group_key = self.request.get('group')
+        app.models.groups.delete_group(group_key)
+        self.ajax_success()
+
+
+class DeleteWithRedirect(base.RequestHandler):
 
     def post(self):
         group_key = self.request.get('group')
@@ -144,28 +156,22 @@ class DeleteInvitation(base.RequestHandler):
 
     def post(self):
         invitation_key = self.request.get('invite')
-        group_key = app.models.groups.get_from_invitation(invitation_key)
         app.models.groups.delete_invitation(invitation_key)
-        self.go('/groups/' + group_key + '#invites')
+        self.ajax_success()
 
 
 class DeleteMember(base.RequestHandler):
 
     def post(self):
         member_key = self.request.get('member')
-        group_key = app.models.groups.get_from_member(member_key)
         app.models.groups.delete_member(member_key)
-        self.go('/groups/' + group_key + '#members')
+        self.ajax_success()
 
 
 class DeleteSelf(base.RequestHandler):
 
     def post(self):
         group_key = self.request.get('group')
-        group_title = app.models.groups.get_title(group_key)
         app.models.groups.delete_self(group_key)
-        self.flash(
-            'You are no longer a member of group %s.' % (group_title),
-            level=self.flash_success)
-        self.go('/')
+        self.ajax_success()
 

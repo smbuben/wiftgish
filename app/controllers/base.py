@@ -23,6 +23,7 @@ import webapp2_extras.jinja2
 import app.config
 import app.models.overview
 import hashlib
+import json
 import time
 
 
@@ -90,6 +91,25 @@ class RequestHandler(webapp2.RequestHandler):
 
     def go(self, path):
         self.redirect(app.config.PATH_PREFIX + path)
+
+    def __ajax_response(self, response):
+        self.response.content_type = 'text/json'
+        self.response.write(json.dumps(response))
+
+    def ajax_success(self, redirect=False, alert=False):
+        response = {
+            'success' :     True,
+            'redirect' :    redirect,
+            'alert' :       alert,
+        }
+        self.__ajax_response(response)
+
+    def ajax_fail(self, alert=False):
+        response = {
+            'success' :     False,
+            'alert' :       alert,
+        }
+        self.__ajax_response(response)
 
     def flash(self, message, level=flash_failure):
         if not self.session.has_key('messages'):
