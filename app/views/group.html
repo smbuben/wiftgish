@@ -46,7 +46,7 @@
 
     <div id="members-list" class="content-entry-list">
       {% if member_lists %}
-        {% for entry in member_lists %}
+        {% for entry in member_lists|sort(attribute='name') %}
           <div class="content-entry content-entry-header">
             {% if editor %}
               <ul class="nav nav-pills pull-right">
