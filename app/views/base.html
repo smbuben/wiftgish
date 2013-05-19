@@ -363,6 +363,12 @@
         var alert_info_start = '<div class="alert alert-info text-center">' + alert_dismiss + '<span>';
         var alert_end = '</span></div>';
 
+        $('.modal').on("shown",
+          function() {
+            $(this).find("input[type=text],textarea").filter(":visible:first").focus();
+          }
+        );
+
         $("#wg-wrapper").on("click", "a.wg-delete-dialog-link",
           function() {
             var $modal = $($(this).attr("href"));
