@@ -105,7 +105,7 @@
     <div id="gifts-list" class="content-entry-list">
       {% if gifts %}
         {% for gift in gifts %}
-          <div class="content-entry container-fluid">
+          <div class="content-entry">
             <ul class="nav nav-pills pull-right">
               <li class="disabled"><a>{{gift.timestamp|timesince}}</a></li>
               {% if editor %}
