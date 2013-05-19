@@ -43,7 +43,7 @@
     <div id="lists-list" class="content-entry-list">
       {% if lists %}
         {% for list in lists|sort(attribute='title') %}
-          <div class="content-entry">
+          <div class="content-entry content-entry-highlight">
             <ul class="nav nav-pills pull-right">
               <li class="disabled"><a>{{list.timestamp|timesince}}</a></li>
               <li><a class="wg-delete-dialog-link" href="#list-delete-dialog" wg-delete-dialog-key="{{list.key()}}" wg-delete-dialog-title="{{list.title}}" title="Delete"><i class="icon-trash"></i></a></li>
@@ -77,7 +77,7 @@
     <div id="groups-list" class="content-entry-list">
       {% if groups %}
         {% for group in groups|sort(attribute='entity.title') %}
-          <div class="content-entry">
+          <div class="content-entry content-entry-highlight">
             <ul class="nav nav-pills pull-right">
               {% if group.member %}
                 <li><a class="wg-delete-dialog-link" href="#group-quit-dialog" wg-delete-dialog-key="{{group.entity.key()}}" wg-delete-dialog-title="{{group.entity.title}}" title="Quit"><i class="icon-ban-circle"></i></a></li>

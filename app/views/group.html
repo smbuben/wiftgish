@@ -62,7 +62,7 @@
           </div>
           {% if entry.lists %}
             {% for list in entry.lists|sort(attribute='title') %}
-              <div class="content-entry">
+              <div class="content-entry content-entry-highlight">
                 <ul class="nav nav-pills pull-right">
                   <li class="disabled"><a>{{list.timestamp|timesince}}</a></li>
                 </ul>
@@ -102,7 +102,7 @@
     <div id="invites-list" class="content-entry-list">
       {% if invites %}
         {% for invite in invites|sort(attribute='timestamp', reverse=True) %}
-          <div class="content-entry">
+          <div class="content-entry content-entry-highlight">
             <ul class="nav nav-pills pull-right">
               <li class="disabled"><a>{{invite.timestamp|timesince}}</a></li>
               <li><a class="invite-help-link" href="#invite-help-dialog" invite-help-dialog-email="{{invite.email}}" invite-help-dialog-code="{{invite.code}}" title="Help"><i class="icon-question-sign"></i></a></li>

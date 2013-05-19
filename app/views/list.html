@@ -59,7 +59,7 @@
         {% for answer in surveys|groupby('category') %}
           <div class="content-entry content-entry-header">{{categories[answer.grouper]}}</div>
           {% for survey in answer.list|sort(attribute='timestamp', reverse=True) %}
-            <div class="content-entry">
+            <div class="content-entry content-entry-highlight">
               <ul class="nav nav-pills pull-right">
                 <li class="disabled"><a>{{survey.timestamp|timesince}}</a></li>
                 {% if editor %}
@@ -105,7 +105,7 @@
     <div id="gifts-list" class="content-entry-list">
       {% if gifts %}
         {% for gift in gifts %}
-          <div class="content-entry">
+          <div class="content-entry content-entry-highlight">
             <ul class="nav nav-pills pull-right">
               <li class="disabled"><a>{{gift.timestamp|timesince}}</a></li>
               {% if editor %}
