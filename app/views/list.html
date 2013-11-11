@@ -441,8 +441,8 @@
     $("#surveys").on("click", "a.wg-edit-link",
       function() {
         var modal = $(this).attr("wg-modal");
-        $("#survey-edit-key", modal).attr("value", $(this).attr("wg-survey-edit-key"));
-        $("#survey-edit-item", modal).attr("value", $(this).attr("wg-survey-edit-item"));
+        $("#survey-edit-key", modal).val($(this).attr("wg-survey-edit-key"));
+        $("#survey-edit-item", modal).val($(this).attr("wg-survey-edit-item"));
         $("#survey-edit-category", modal).val($(this).attr("wg-survey-edit-category")).attr("selected", "selected");
         $(modal).modal("show");
         return false;
@@ -512,10 +512,10 @@
     $("#gifts").on("click", "a.wg-edit-link",
       function() {
         var modal = $(this).attr("wg-modal");
-        $("#gift-edit-key", modal).attr("value", $(this).attr("wg-gift-edit-key"));
-        $("#gift-edit-item", modal).attr("value", $(this).attr("wg-gift-edit-item"));
-        $("#gift-edit-link", modal).attr("value", $(this).attr("wg-gift-edit-link"));
-        $("#gift-edit-cost", modal).attr("value", $(this).attr("wg-gift-edit-cost"));
+        $("#gift-edit-key", modal).val($(this).attr("wg-gift-edit-key"));
+        $("#gift-edit-item", modal).val($(this).attr("wg-gift-edit-item"));
+        $("#gift-edit-link", modal).val($(this).attr("wg-gift-edit-link"));
+        $("#gift-edit-cost", modal).val($(this).attr("wg-gift-edit-cost"));
         $("#gift-edit-stars", modal).val($(this).attr("wg-gift-edit-stars")).attr("selected", "selected");
         $(modal).modal("show");
         return false;
